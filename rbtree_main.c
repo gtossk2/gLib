@@ -1,8 +1,10 @@
 #include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
 
-#include "include/rbtree.h"
+#include "rbtree.h"
 
+/* Customize your node with compared data */
 struct mynode{
   struct rb_node node;
   char *string;
@@ -10,10 +12,12 @@ struct mynode{
 
 struct rb_root myTree = RB_ROOT;
 
+/* Implement the compare function for inserting/searching rb node */
 struct mynode* search_rbtree(struct rb_root *root, char *string);
 int insert_rbtree(struct rb_root *root, struct mynode *data);
 void free_rbtree(struct mynode *node);
 
+/* DEBUG print for rb tree */
 void print_rbtree(const struct rb_root *root);
 void _print(const struct rb_node *n);
 void _print_node(const struct rb_node *n);
@@ -33,7 +37,7 @@ int main(){
   for(i = 0; i < NUM_NODES; i++){
     mn[i] = (struct mynode *) malloc(sizeof(struct mynode));
     mn[i]->string = (char *) malloc(sizeof(char) * 4);
-    sprintf(mn[i]->string, "%d", i);
+    sprintf(mn[i]->string, "%x", i);
     //sprintf(mn[i]->string, "%d", insertArray[i]);
     insert_rbtree(&myTree, mn[i]);
   }

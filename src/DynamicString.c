@@ -1,4 +1,4 @@
-#include "../include/DynamicString.h"
+#include "DynamicString.h"
 
 DString *StrNew() {
   DString *str = malloc(sizeof(DString));
@@ -6,6 +6,8 @@ DString *StrNew() {
   str->s[0] = '\0';
   str->len = 0;
   str->size = 1;
+
+  return str;
 }
 
 void StrAppend(DString *str, char *s) {
@@ -22,4 +24,6 @@ void StrAppend(DString *str, char *s) {
     strcat(&str->s[str->len], s);
     str->len += strlen(s);
   }
+
+  return;
 }

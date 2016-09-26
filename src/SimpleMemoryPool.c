@@ -1,4 +1,4 @@
-#include "../include/SimpleMemoryPool.h"
+#include "SimpleMemoryPool.h"
 
 /*
  * initial memory pool()

@@ -121,6 +121,8 @@ static inline void rb_link_node(struct rb_node *node, struct rb_node *parent,
 	*rb_link = node;
 }
 
+// TODO : rcu_assign_pointer need to be implemented.
+/*
 static inline void rb_link_node_rcu(struct rb_node *node, struct rb_node *parent,
 				    struct rb_node **rb_link)
 {
@@ -134,6 +136,7 @@ static inline void rb_link_node_rcu(struct rb_node *node, struct rb_node *parent
 	({ typeof(ptr) ____ptr = (ptr); \
 	   ____ptr ? rb_entry(____ptr, type, member) : NULL; \
 	})
+*/
 
 /**
  * rbtree_postorder_for_each_entry_safe - iterate in post-order over rb_root of
