@@ -4,26 +4,41 @@
 
 #include "rbtree.h"
 
-/* Customize your node with compared data */
+/* Customize your node with compared data 
+ *
+ *  node      struct rb_node (leveraged from linux kernel)
+ *  string    Customized data
+ */
 struct mynode{
   struct rb_node node;
   char *string;
 };
 
-struct rb_root myTree = RB_ROOT;
-
-/* Implement the compare function for inserting/searching rb node */
+/* 
+ * Search a specific node in the rb tree
+ */
 struct mynode* search_rbtree(struct rb_root *root, char *string);
+
+/*
+ * Insert a node into a rb tree
+ */
 int insert_rbtree(struct rb_root *root, struct mynode *data);
+
+/*
+ * Free the rb node and node data
+ */
 void free_rbtree(struct mynode *node);
 
 /* DEBUG print for rb tree */
 void print_rbtree(const struct rb_root *root);
-void _print(const struct rb_node *n);
-void _print_node(const struct rb_node *n);
+
+/* Internal usage only */
+static void _print(const struct rb_node *n);
+static void _print_node(const struct rb_node *n);
 
 #define NUM_NODES 12
-//int insertArray[NUM_NODES] = {2, 1, 4, 5, 9, 3, 6, 7};
+
+struct rb_root myTree = RB_ROOT;
 
 int main(){
   
@@ -33,12 +48,11 @@ int main(){
   int i = 0;
 
   /* insert */
-  printf("insert node from 1 to 32 ... \n");
+  printf("insert node from 1 to %d ... \n", NUM_NODES);
   for(i = 0; i < NUM_NODES; i++){
     mn[i] = (struct mynode *) malloc(sizeof(struct mynode));
     mn[i]->string = (char *) malloc(sizeof(char) * 4);
     sprintf(mn[i]->string, "%x", i);
-    //sprintf(mn[i]->string, "%d", insertArray[i]);
     insert_rbtree(&myTree, mn[i]);
   }
 
@@ -82,32 +96,36 @@ void print_rbtree(const struct rb_root *root){
   _print(node);
 }
 
-void _print(const struct rb_node *n){
+static void _print(const struct rb_node *n){
   struct mynode *data = container_of(n, struct mynode, node);
 
   if(!n){
     return;
   }
 
+  // TODO: rbtree node doesn't has the color property of the node
+#if 0
   if(n->__rb_parent_color == RB_RED) {
     printf("%s(Red)", data->string);
     _print_node(n);
   } else if(n->__rb_parent_color == RB_BLACK) {
     printf("%s(Black)", data->string);
     _print_node(n);
-  } else {
-    printf("%s", data->string);
-    _print_node(n);
   }
+#else
+  printf("%s", data->string);
+  _print_node(n);
+#endif
 
   printf("\n");
   _print(n->rb_left);
   _print(n->rb_right);
 }
 
-void _print_node(const struct rb_node *n){
+static void _print_node(const struct rb_node *n){
   struct mynode *data;
 
+  // Left node
   if(n->rb_left){
     data = container_of(n->rb_left, struct mynode, node);
     printf(" Left = %s ", data->string);
@@ -115,6 +133,7 @@ void _print_node(const struct rb_node *n){
     printf(" Left = nil ");
   }
  
+  // Right node
   if(n->rb_right){
     data = container_of(n->rb_right, struct mynode, node);
     printf(" Right = %s ", data->string);
